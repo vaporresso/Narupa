@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html">
+                <img src="https://www.zenrestaurant.co.th/images/zen/people-say-bg-comment.png" class="logonav">
+            </a>
+            <div id="point" class="point">
+                <h3>Point 100 คะแนน</h3>
+            </div>
+
+
+            <div class="nav-profile">
+                <div onclick="openCart()" style="cursor: pointer;" class="nav-profile-cart">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+            </div>
+            
+        
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="sidebar">
+            <a onclick="searchproduct('all')" class="sidebar-items">
+                All Product</a>
+            <a onclick="searchproduct('shoe')" class="sidebar-items">
+                Shoe</a>
+            <a onclick="searchproduct('Clothing')" class="sidebar-items">
+                 Clothing</a>
+            <a onclick="searchproduct('Accessories')" class="sidebar-items">
+                Accessories </a>
+            <a onclick="searchproduct('Electronics')" class="sidebar-items">
+                Electronics </a>            
+        </div>
+        <div id="productlist" class="product"></div>
+    </div>
+
+    <div id="modalDesc" class="modal" style="display: none;" >
+        <div onclick="closeModal()" class="modal-bg"></div>
+            <div class="modal-page">
+                <h2 style="font-size:1.5vw;">Detail</h2>
+                <div class="modaldesc-content">
+                    <img id="mdd-img" class="modaldesc-img"src="https://cdn.pixabay.com/photo/2015/12/11/11/43/google-1088004_1280.png"alt="">
+                    <div class="modaldesc-detail">
+                        <p id="mdd-name" style="font-size:1.5vw;"><b>Product name</b></p>
+                        <p id="mdd-price" style="font-size:1.2vw; margin-bottom: 2vw;;">500 THB</p>
+                        <p id="mdd-desc" style="font-size:1.2vw;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum
+                            doloribus eum illum cum qui est alias earum, reiciendis doloremque sed consectetur, veniam
+                            asperiores ullam, sint velit enim! Accusantium, repellendus modi.</p>
+                        <div class="btn-control">
+                            <button onclick="closeModal()" class="btn">
+                                Close
+                            </button>
+                            <button onclick="addtocart()" class="btn btn-buy">
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div id="modalCart" class="modal" style="display: none ;" >
+        <div  onclick="closeModal()" class="modal-bg"> </div>
+            <div class="modal-page">
+                    <h2 style="font-size:1.5vw">My cart</h2>
+                    <br>
+                <div id="mycart" class="cartlist">
+
+                </div>    
+                <div  class="btn-control">
+                        <button onclick="closeModal()" class="btn">
+                            Close
+                        </button>
+                        <button onclick="openpayment()" class="btn btn-buy">
+                            Buy
+                        </button>
+                </div>       
+            </div>  
+    </div>
+
+
+    <div id="payment" class="modal" style="display:none;    " >
+        <div  onclick="closeModal()" class="modal-bg"> </div>
+            <div class="modal-page">
+                    <h2 style="font-size:1.5vw">Payment</h2>
+                    <br>
+                    <div id="mypayment" class="paymentlist">
+                        <p id="paymentlist">รายการที่สั่งซื้อ</p>
+                        <p id="paymentSum">ยอดรวม</p>
+                    </div>
+                        <div>
+                            <label for="">Coupon</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="couponRadioOptions" id="couponAmount" value="fixedAmount">
+                                <label class="form-check-label" for="couponRadio1">Fixed Amount</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="couponRadioOptions" id="couponPercent" value="percentageDiscount">
+                                <label class="form-check-label" for="couponRadio2">Percentage discount</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="couponRadioOptions" id="NoneCoupon" value="None" checked>
+                                <label class="form-check-label" for="onTopRadio2">None</label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="">On Top</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="onTopRadioOptions" id="onTopPercent" value="percentageDiscount">
+                                <label class="form-check-label" for="onTopRadio1">Percentage discount</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="onTopRadioOptions" id="onTopPoint" value="discountByPoint">
+                                <label class="form-check-label" for="onTopRadio2">Discount by point</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="onTopRadioOptions" id="NoneOntop" value="None" checked>
+                                <label class="form-check-label" for="onTopRadio2">None</label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="">Seasonal</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="seasonalRadioOptions" id="seasonal" value="fixedAmount">
+                                <label class="form-check-label," for="seasonalRadio1">Special campaigns</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="seasonalRadioOptions" id="NoneSeasonal" value="None" checked>
+                                <label class="form-check-label" for="onTopRadio2">None</label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด</p>
+                        </div>
+                    <div  class="btn-control">
+                        <button onclick="closeModal()" class="btn">
+                            Close
+                        </button>
+                        <button onclick="closeModal()" class="btn btn-buy">
+                            Buy
+                        </button>
+                    </div>     
+            </div>  
+    </div>
+    <script src="product.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>  
+</body>
+
+</html>

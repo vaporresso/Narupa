@@ -9,8 +9,8 @@
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>  
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <nav>
@@ -86,13 +86,31 @@
                         <button onclick="closeModal()" class="btn">
                             Close
                         </button>
-                        <button onclick="openpayment()" class="btn btn-buy">
+                        <button id="btn-buy" onclick="openpayment()" class="btn btn-buy">
                             Buy
                         </button>
                 </div>       
             </div>  
     </div>
 
+
+    <div id="descriptionCampaigns" class="modal" style="display: none " >
+        <div  onclick="closeModal()" class="modal-bg"> </div>
+            <div class="modal-page">
+                    <h2 style="font-size:1.5vw">รายละเอียดส่วนลด</h2>
+                    <br>
+                    <p id="Coupon-description">ไม่ได้ใช้ส่วนลด Coupon</p>
+                    <p id="Ontop-description">ไม่ได้ใช้ส่วนลด Ontop</p>
+                    <p id="Seasonal-description">ไม่ได้ใช้ส่วนลด Seasonal</p>
+                        <div  class="btn btn-buy">
+                                <button onclick="openpayment()" class="btn">
+                                    Close
+                                </button>
+                        </div>       
+            </div>  
+        </div>
+    </div>
+    
 
     <div id="payment" class="modal" style="display:none;    " >
         <div  onclick="closeModal()" class="modal-bg"> </div>
@@ -151,18 +169,20 @@
                             <p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด</p>
                         </div>
                     <div  class="btn-control">
-                        <button onclick="closeModal()" class="btn">
+                        <button onclick="closeModal()" class="btn btn-buy">
                             Close
                         </button>
-                        <button onclick="closeModal()" class="btn btn-buy">
-                            Buy
+                        <button id="ButtomDescription" onclick="DescriptionCampaigns()" class="btn btn-buy">
+                            รายละเอียดคูปอง
+                        </button>
+                        <button id="ButtomPayment" onclick="CompletePayment()" class="btn btn-buy">
+                            ชำระเงิน
                         </button>
                     </div>     
             </div>  
     </div>
-    <script src="product.js"></script>
     <script src="script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 
 </html>

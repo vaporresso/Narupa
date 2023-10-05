@@ -1,4 +1,4 @@
-let onTopDiscountPercent = 15; // ปรับค่านี้ตามส่วนลดที่คุณต้องการให้
+let  Usepoint = 0; //
 
 let product = [
     {    
@@ -97,6 +97,7 @@ let product = [
         }
         $("#productlist").html(html);
         
+        point()        
     })
 
     function searchproduct(param) {
@@ -161,6 +162,7 @@ let product = [
     function openpayment(){
         $('#modalCart').css('display','none');
         $('#payment').css('display','flex');
+        $('#descriptionCampaigns').css('display','none');
         renderpayment();
         TotalPrice();
     }
@@ -168,6 +170,7 @@ let product = [
     function renderpayment() {
         if(cart.length>0){
             let html ='';
+            sum = 0;
             for(let i=0; i<cart.length;i++){
                 html += 
                 `<div class="cartlist-item">
@@ -183,17 +186,19 @@ let product = [
                     </div>
                 </div>`
                 sum += cart[i].price*cart[i].count;
-                console.log(sum); 
+                console.log("sum = ",sum); 
             };
 
             html += `<p style="font-size: 1.5vw; text-align: right;">ยอดรวม: ${sum} THB</p>`;
-           
+        
             $("#mypayment").html(html);
     }}
     
 
 
     function rendercart(){
+        $('#btn-buy').css('display','flex');
+
         if(cart.length>0){
             let html ='';
             for(let i=0; i<cart.length;i++){
@@ -218,6 +223,8 @@ let product = [
         }
         else{
             $("#mycart").html("<p>Not Fount Product List</p>")
+            $('#btn-buy').css('display','none');
+
         }
     }
 
@@ -262,6 +269,11 @@ let product = [
         }
 
     }
+let Points = 1000; // ตั้งค่าเริ่มต้นของคะแนน
+let Coupon_description = "";
+let Ontop_description =" ";
+let Seasonal_description =" ";
+let MoneyPayment = 0
     function TotalPrice() {
         let Allsum = sum;
         let discount = 0; 
@@ -277,6 +289,8 @@ let product = [
                 $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${coupon}</p>`);
                 // Allsum = coupon; // อัปเดตค่า Allsum
                 prop()
+                Coupon_description = `CouponAmount : มูลค่า ${discount} THB`;
+                $("#Coupon-description").text(Coupon_description);            
             }else(console.log("ERROR6"));
             
             
@@ -288,6 +302,8 @@ let product = [
                 coupon = Allsum * ((100 - discount) / 100);
                 $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${coupon}</p>`);
                 // Allsum = coupon; // อัปเดตค่า Allsum
+                Coupon_description = `couponPercent : ส่วนลด 2 % มูลค่า ${Allsum-coupon} THB`;
+                $("#Coupon-description").text(Coupon_description);            
                 prop()
             }else(console.log("ERROR5"));
         });
@@ -303,29 +319,10 @@ let product = [
             }else(console.log("ERROR4"));
         });
 
- //Ontop       
-        // $('#onTopPercent').on('change', function() {
-        //     if ($(this).is(':checked')) {
-        //         if(coupon==0){
-        //             discount = 15;
-        //             ontop = Allsum * ((100 - discount) / 100);
-        //             $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
-                
-        //             $('#NoneSeasonal').prop('checked', true);
-        //             // Allsum = ontop; // อัปเดตค่า Allsum
-        //         }else{
-        //             discount = 15;
-        //             ontop = coupon * ((100 - discount) / 100);
-        //             $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
-        //             console.log(("Ontop Error3="),ontop);
-        //             $('#NoneSeasonal').prop('checked', true);
-        //             // Allsum = ontop; // อัปเดตค่า Allsum
-        //         }
-        //         // else(console.log("ERROR3"));
-        //     }
-        // });
+//Ontop       
 
         $('#onTopPercent').on('change', function() {
+            let onTopDiscountPercent = 15; // %
             if ($(this).is(':checked')) {
                     // ตรวจสอบหมวดหมู่ของสินค้าที่ถูกเลือก
                     const selectedCategories = cart.map(item => product[item.index].type);
@@ -337,14 +334,20 @@ let product = [
                         ontop = Allsum * ((100 - onTopDiscountPercent) / 100);
                         console.log("คำนวณส่วนลด1");
                         $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
+                        Ontop_description = `OntopDiscountPercent : ส่วนลด 15 % เมื่อซื้อของ ในหมวดหมู่ "Clothing","Accessories" และ "Electronics" มูลค่า ${Allsum-ontop}`;
+                    $("#Ontop-description").text(Ontop_description); 
+
                         $('#NoneSeasonal').prop('checked', true);
                         }else{
                         ontop = coupon * ((100 - onTopDiscountPercent) / 100);
                         console.log("คำนวณส่วนลด2");
                         $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
+                        Ontop_description = `OntopDiscountPercent : ส่วนลด 15 % เมื่อซื้อของ ในหมวดหมู่ "Clothing","Accessories" และ "Electronics" มูลค่า ${coupon-ontop}`;
+                        $("#Ontop-description").text(Ontop_description); 
                         $('#NoneSeasonal').prop('checked', true);
                         } 
-                    } else {
+                    } else { 
+                        $('#onTopPercent').prop('disabled', true);
                         if (coupon == 0) {
                             $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${Allsum}</p>`);
                             ontop=0;
@@ -360,36 +363,60 @@ let product = [
                                     
         }})
 
-    
-        $('#onTopPoint').on('change', function() {
-            if ($(this).is(':checked')) {
-                if(coupon==0){
-                    discount = 20;
-                    Usepoint = Allsum * ((discount) / 100);
-                    ontop = Allsum * ((100 - discount) / 100);
+            $('#onTopPoint').on('change', function() {
+            let p=20 //% MAX OntopPoint 
+                if ($(this).is(':checked',true)) {
+                    
+                    if (coupon === 0) {
+                        discount = p; // หน่วยเป็น %
+                        Usepoint = Allsum * ((discount) / 100);
+                        if(Points>=Usepoint){
+                        ontop = Allsum * ((100 - discount) / 100);
+                        // const redemptionMessage = redeemPoints(Usepoint);
+                        Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Usepoint}  มูลค่า ${Usepoint} THB  คุณเหลือ Points ${Points} Points`
+                        $("#Ontop-description").text(Ontop_description);     
+                        }else{
+                        ontop = Allsum * ((100 - discount) / 100)-(Points-Usepoint);
+                        Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Points}  มูลค่า ${Points} THB คุณเหลือ Points 0 Points`
+                        $("#Ontop-description").text(Ontop_description);   
+                }
                     $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
-                    console.log(Usepoint,"=UsePoint1");
                     $('#NoneSeasonal').prop('checked', true);
-                    point(Usepoint)
-                }else{
-                    discount = 20;
-                    Usepoint = coupon * ((discount) / 100);
-                    ontop = coupon * ((100 - discount) / 100);
-                    $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
-                    console.log((Usepoint,"= UsePoint2"));
-                    $('#NoneSeasonal').prop('checked', true);
-                    point(Usepoint)
-                    }
-  
+                
+                } else {
+                    discount = p;
+                    Usepoint = coupon * ((discount) / 100);      
+                        if(Points>=Usepoint){
+                        ontop = coupon * ((100 - discount) / 100);
+                        // const redemptionMessage = redeemPoints(Usepoint);
+                        Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Usepoint}  มูลค่า ${Usepoint} THB  คุณเหลือ Points ${Points} Points`
+                        $("#Ontop-description").text(Ontop_description);
+                        console.log(`Points =${Points} `);
+                        console.log(`Use 211 =${Usepoint} `);
+                        }else{
+                        ontop = coupon -Points; //กรณีที่pointใช้หมด 
+                        Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Points}  มูลค่า ${Points} THB คุณเหลือ Points 0 Points`
+                        $("#Ontop-description").text(Ontop_description); 
+                        console.log(`Points2 =${Points} `);
+                        console.log(`Use 211 =${Usepoint} `);
+                        console.log(`coupon 211 =${coupon} `);
+                        console.log(`allsum 211 =${Allsum} `);
 
+                    }    
+                    $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
+                    $('#NoneSeasonal').prop('checked', true);
+                
+                }
+                    renderpayment(); // อัปเดตแสดงผลรายการการชำระเงินใหม่
             }
         });
     
         $('#NoneOntop').on('change', function() {
             if ($(this).is(':checked')) {
+                Usepoint=0;
                 ontop=0;
                 seasonal=0;
-                console.log("ontop none =",ontop);
+                console.log("Usepoint =",Usepoint);
                 $('#NoneSeasonal').prop('checked', true);
                 if(seasonal==0 && coupon != 0){
                 
@@ -441,6 +468,8 @@ let product = [
                         $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${seasonal}</p>`);
                         console.log("rug5");}
                 }
+                Seasonal_description = `Seasonal : ส่วนลดทุก ๆ 300 บาท ลด 40 บาท มูลค่า ${discount*y} THB`
+                        $("#Seasonal-description").text(Seasonal_description);
             });
         
         $('#NoneSeasonal').on('change', function() {
@@ -453,7 +482,7 @@ let product = [
                 }     
                     else if(ontop != 0){
                         if ($(`#NoneOntop`).is(':checked')) {
-                           $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${coupon}</p>`);
+                        $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${coupon}</p>`);
                         }else{
                             $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
                         }
@@ -477,11 +506,55 @@ let product = [
             console.log("Prop ทำงาน");
         }, 0);
     }
-    function point(x){
-     
-        let point = 10000
-        $('#point').html(`<h3>คุณมี ${point-x} คะแนน</h3>`)
+    function point(){
+        Points-=Usepoint;
+        if(Points>0){
+        $('#point').html(`<h3>คุณมี ${Points} คะแนน</h3>`);
+        }else{
+            $('#point').html(`<h3>คุณมี 0 คะแนน</h3>`)
+            $('#onTopPoint').prop('disabled', true);
+
+            MoneyPayment = -Points
+        }
     }
-    point()
-    
-    
+    function CompletePayment(){
+        point()
+        html=''
+        Allsum = 0;
+        discount = 0;
+        coupon = 0;
+        ontop = 0;
+        seasonal = 0;
+        sum = 0;
+        cart = [];
+        $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด "โปรดใส่ส่วนลด"</p>`);
+        $("#mypayment").html(" ");
+        Swal.fire({
+
+            title: 'ชำระเงินสำเร็จ',
+            width: 600,
+            padding: '3em',
+            color: '#716add',
+
+        })
+        //   $('#NoneOntop').prop('checked', true);
+        //   $('#NoneSeasonal').prop('checked', true);
+        //   $('#NoneCoupon').prop('checked', true);
+
+        closeModal()
+
+    }
+
+    function DescriptionCampaigns(){
+        $("#payment").css('display','none');
+        $("#descriptionCampaigns").css('display','flex');
+        Coupon_description
+        Ontop_description
+        Seasonal_description
+    }
+
+    function formatDecimal(number, decimalPlaces) {
+        // ใช้ toFixed() เพื่อกำหนดจำนวนตำแหน่งทศนิยม
+        // และแปลงผลลัพธ์กลับเป็นตัวเลขโดยใช้ parseFloat
+        return parseFloat(number).toFixed(decimalPlaces);
+    }

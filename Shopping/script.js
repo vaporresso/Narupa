@@ -422,7 +422,7 @@
                     seasonal=0;
                     console.log("Usepoint =",Usepoint);
                     $('#NoneSeasonal').prop('checked', true);
-                    if(seasonal==0 && coupon != 0){
+                    if(coupon != 0){
                     
 
                     $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${coupon}</p>`);}

@@ -375,11 +375,11 @@
                             if(Points>=Usepoint){
                             ontop = Allsum * ((100 - discount) / 100);
                             // const redemptionMessage = redeemPoints(Usepoint);
-                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Usepoint}  มูลค่า ${Usepoint} THB  คุณเหลือ Points ${Points} Points`
+                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Usepoint}  มูลค่า ${Usepoint} THB  คุณเหลือ Points ${Points-Usepoint} Points`
                             $("#Ontop-description").text(Ontop_description);     
                             }else{
                             ontop = Allsum * ((100 - discount) / 100)-(Points-Usepoint);
-                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Points}  มูลค่า ${Points} THB คุณเหลือ Points 0 Points`
+                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Points}  มูลค่า ${Points-Usepoint} THB คุณเหลือ Points 0 Points`
                             $("#Ontop-description").text(Ontop_description);   
                     }
                         $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
@@ -391,7 +391,7 @@
                             if(Points>=Usepoint){
                             ontop = coupon * ((100 - discount) / 100);
                             // const redemptionMessage = redeemPoints(Usepoint);
-                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Usepoint}  มูลค่า ${Usepoint} THB  คุณเหลือ Points ${Points} Points`
+                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Usepoint}  มูลค่า ${Usepoint} THB  คุณเหลือ Points ${Points-Usepoint} Points`
                             $("#Ontop-description").text(Ontop_description);
                             console.log(`Points =${Points} `);
                             console.log(`Use 211 =${Usepoint} `);
@@ -413,27 +413,22 @@
                 }
             });
         
+          
             $('#NoneOntop').on('change', function() {
                 if ($(this).is(':checked')) {
                     Ontop_description = `ไม่ได้ใช้ส่วนลด Ontop`;
                             $("#Ontop-description").text(Ontop_description); 
+                    Seasonal_description = `ไม่ได้ใช้ส่วนลด Seasonal`
+                            $("#Seasonal-description").text(Seasonal_description);
                     Usepoint=0;
                     ontop=0;
                     seasonal=0;
                     console.log("Usepoint =",Usepoint);
                     $('#NoneSeasonal').prop('checked', true);
                     if(coupon != 0){
-                    
-
-                    $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${coupon}</p>`);}
-                    
-                    else if(coupon==0 && seasonal != 0){
-                    
-
-                    $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${seasonal}</p>`);}
-                    
+                        $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${coupon}</p>`);}
                     else{
-                    
+
                         $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${Allsum}</p>`);}
             }});
 

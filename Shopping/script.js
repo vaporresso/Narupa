@@ -379,7 +379,7 @@
                             $("#Ontop-description").text(Ontop_description);     
                             }else{
                             ontop = Allsum * ((100 - discount) / 100)-(Points-Usepoint);
-                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Points}  มูลค่า ${Points-Usepoint} THB คุณเหลือ Points 0 Points`
+                            Ontop_description = `OntopDiscountPoint :  1 Point มีค่าเท่ากับ 1 THB แลกได้สูงสุดไม่เกิน 20% ของมูลค่า คุณได้ใช้ Point ไป ${Points}  มูลค่า ${Points} THB คุณเหลือ Points 0 Points`
                             $("#Ontop-description").text(Ontop_description);   
                     }
                         $("#Allsum").html(`<p class="mt-4" id="Allsum" style="font-size: 1.5vw">ยอดรวม หลังหักส่วนลด ${ontop}</p>`);
